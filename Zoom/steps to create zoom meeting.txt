@@ -1,0 +1,6 @@
+1) Goto zoom market place ==> https://marketplace.zoom.us/
+2) sign in
+3) Goto Build App drop down from the header
+4) Goto JWT 
+5) Generate your API Key & Secret
+6) use this API Key & API Secret key in the code

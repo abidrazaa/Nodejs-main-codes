@@ -1,0 +1,17 @@
+const crypto = require('crypto')
+module.exports.generateSignature = async (req, res) => {
+
+    try{
+        const meetingNumber = req.params.meetingId;
+        const role = 1;
+        const timestamp = new Date().getTime() - 30000
+        const msg = Buffer.from(API_KEY + meetingNumber + timestamp + role).toString('base64')
+        const hash = crypto.createHmac('sha256', API_SECRET_KEY).update(msg).digest('base64')
+        const signature = Buffer.from(`${API_KEY}.${meetingNumber}.${timestamp}.${role}.${hash}`).toString('base64')
+        return res.send(signature)
+        
+    }catch(error){
+        return res.status(500).json({msg : "Something went wrong" , err : error.message})
+    }
+    
+}

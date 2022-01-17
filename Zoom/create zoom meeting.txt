@@ -1,0 +1,55 @@
+const rp = require('request-promise');
+const jwt = require('jsonwebtoken');
+
+const payload = {
+            iss: API_KEY,
+            exp: ((new Date()).getTime() + 5000)
+        };
+        const token = jwt.sign(payload, API_SECRET_KEY);
+
+        email = "xyz@gmail.com";
+        
+        var options = {
+            method: "POST",
+            uri: "https://api.zoom.us/v2/users/" + email + "/meetings",
+            body: {
+            topic: "test meeting title",
+            type: 2,
+            //   start_time: "2022-01-08T10:35:01",
+            duration: 60,
+            settings: {
+                host_video: true,
+                participant_video: true,
+                cn_meeting: true,
+                in_meeting: false,
+                join_before_host: true,
+                mute_upon_entry: false,
+                watermark: false,
+                use_pmi: false,
+                approval_type: 2,
+                registration_type: 3,
+                audio: "both",
+                auto_recording: "cloud",
+                enforce_login: false,
+                alternative_hosts: ""
+            }
+            },
+            auth: {
+            bearer: token
+            },
+            headers: {
+            "User-Agent": "Zoom-api-Jwt-Request",
+            "content-type": "application/json"
+            },
+            json: true //Parse the JSON string in the response
+        };
+
+        const data = rp(options)
+            .then(async function(response) {
+		console.log(response)
+  
+            })
+            .catch(function(err) {
+                // API call failed...
+                console.log("API call failed, reason ", err);
+            });
