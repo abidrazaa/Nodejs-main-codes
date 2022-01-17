@@ -1,0 +1,17 @@
+function sendZoomEmail(userEmail, doctorEmail, zoomUrl) {
+    
+    const mailData = {
+        from: MAIL_FROM_ADDRESS,
+        to: `${userEmail}, ${doctorEmail}`,
+        subject: `Zoom Link Url | ${APP_NAME}`,
+        html: zoomUrlTemplate(global.app_url, userEmail, doctorEmail, zoomUrl),
+      };
+  
+      mailer(mailData, (response) => {
+        if (response.success) {
+            console.log("email sent successfully")
+        } else {
+            console.log("email failed")
+        }
+      });
+}
