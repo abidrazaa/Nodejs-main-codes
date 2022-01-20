@@ -1,0 +1,52 @@
+<html>
+    <body>
+        <input type="time" id="start_time">
+        <input type="time" id="end_time">
+        <button onclick="addNewTimeSlot()">Submit</button>
+    </body>
+</html>
+
+<script>
+    var timeSLots = [
+        {
+        "start" : "05:30",
+        "end" : "06:30"
+        },
+        {
+        "start" : "07:15",
+        "end" : "08:30"
+        },
+        {
+        "start" : "03:30",
+        "end" : "04:15"
+        }
+    ]
+    function addNewTimeSlot(){
+        var start_time = document.getElementById("start_time").value;
+        var end_time = document.getElementById("end_time").value;
+
+        var t = true;
+
+        timeSLots.forEach((timeRange, idx)=>{
+            if(t){
+                if(start_time>timeRange.end || (start_time<timeRange.start && end_time<timeRange.start)){
+                
+                    if (idx === timeSLots.length - 1){
+                        var obj = {
+                            "start" : start_time,
+                            "end" : end_time
+                            }
+                        timeSLots.push(obj);
+                        console.log("possible") ;
+                        console.log("timeSLots==>",timeSLots);
+                    }   
+                } 
+                else{
+                    t = false;
+                    console.log("Not possible");
+                    console.log("timeSLots==>",timeSLots);
+                }
+            }
+        });
+    }
+</script>
