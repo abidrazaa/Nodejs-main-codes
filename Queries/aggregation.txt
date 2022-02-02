@@ -1,0 +1,26 @@
+const userCount = await UserModel.aggregate([
+      {
+        $match : {hasPackage:true}
+      },
+      {
+        $group : {
+          _id : "$user_type", 
+          count : {$sum :1}
+        }
+      },
+      {
+        $lookup: {
+          from: 'user_types', //reference table
+          localField: '_id', 
+          foreignField: '_id',
+          as: 'userType', 
+        }
+      },
+      {$unwind:'$userType'},
+      {
+        $project: {
+          count : 1,
+          name : '$userType.name'
+        }
+      }
+    ])
