@@ -1,0 +1,19 @@
+const earnings = await this.EventModel.aggregate([
+                {
+                    $match : { eventType : "paid" }
+                },
+                {
+                    $group : {
+                        
+                        _id: { $cond: { if: { $eq: [ filter, "monthly" ] }, then: { yearMonth: { $dateToString: { format: "%m", date: "$createdAt" } },}, else: { year: { $dateToString: { format: "%Y", date: "$createdAt" } },} } },
+                        // _id: { yearMonth: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },},
+                        month: { $last: { $dateToString: {format: "%m", date: "$createdAt"} } },
+                        year: { $last: { $dateToString: {format: "%Y", date: "$createdAt"} } },
+                        earnings: { $sum: {
+                            $toInt: "$payment"
+                         }  },
+                        eventCount: { $sum: 1 }
+                    }
+                },
+                
+            ])

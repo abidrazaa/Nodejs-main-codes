@@ -3,3 +3,10 @@ const updateDocument = {
      $set: { "timeSlots.$.slotCompleted": true}
 };
 const result = await TimeSlotModel.updateOne(query, updateDocument);
+
+ORRRRR
+
+TimeSlotModel.updateOne(
+     	    {'timeSlots._id': timeId},
+            {$set: {'timeSlots.$.hasBooked': false}},
+            function(err, count) { });
