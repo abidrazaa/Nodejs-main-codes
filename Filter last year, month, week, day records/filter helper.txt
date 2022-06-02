@@ -1,0 +1,58 @@
+export enum TimeFilters {
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+  YEARLY = 'YEARLY',
+}
+
+
+async filterHelper(filter){
+    if (filter === TimeFilters.DAILY) {
+      let now = new Date();
+      let startOfToday = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+      );
+      return {
+        $lt: new Date(),
+        $gt: startOfToday,
+      };
+    } else if (filter === TimeFilters.MONTHLY) {
+      let date = new Date();
+      date.setMonth(date.getMonth() - 1);
+      return {
+        $lt: new Date(),
+        $gt: date,
+      };
+    } else if (filter === TimeFilters.YEARLY) {
+      let date = new Date();
+      date.setFullYear(date.getFullYear() - 1);
+      return {
+        $lt: new Date(),
+        $gt: date,
+      };
+    } else if (filter === TimeFilters.WEEKLY) {
+      let date = new Date();
+      date.setDate(date.getDate() - 7);
+      return {
+        $lt: new Date(),
+        $gt: date,
+      };
+    } else {
+      return false
+    }
+  }
+
+
+// Use in Original function
+
+const query = await this.filterHelper(filter)
+      if(!query){
+        return {
+          success: false,
+          message: 'Invalid time filter',
+          data: null,
+          status: 400,
+        };
+      }
